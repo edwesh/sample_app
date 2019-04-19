@@ -51,6 +51,10 @@ group :development do
 end
 
 group :test do
+  gem 'guard'	
+  gem 'guard-minitest'
+  gem 'minitest-reporters'
+  gem 'mini_backtrace'  
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
