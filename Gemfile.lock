@@ -478,7 +478,6 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   bootstrap-sass
   bootstrap-will_paginate
-  bundler
   byebug
   capybara (>= 2.15)
   coffee-rails (~> 4.2)
@@ -511,4 +510,4 @@ RUBY VERSION
    ruby 2.6.0p0
 
 BUNDLED WITH
-   2.0.1
+   1.17.3
