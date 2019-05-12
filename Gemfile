@@ -48,6 +48,9 @@ gem 'will_paginate'
 
 gem 'bootstrap-will_paginate'
 
+gem 'carrierwave'
+
+gem 'mini_magick'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record
@@ -80,6 +83,7 @@ end
 
 group :production do
   gem 'pg'
+  gem 'fog'
 end
 
 

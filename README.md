@@ -1,24 +1,15 @@
 # README
+This app is still under development.
+Current progress
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+. Create framework of app, needs to signup and verify
 
-Things you may want to cover:
+. Accout activation, password reset are available
 
-* Ruby version
+. Users are freely look up each other 
 
-* System dependencies
+. Microposts are availble with uploading picture
 
-* Configuration
+. Following and followed by users are available
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+. Checking microposts feed at home and profile page

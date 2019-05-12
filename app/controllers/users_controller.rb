@@ -1,16 +1,18 @@
 class UsersController < ApplicationController
-before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
+before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
 before_action :correct_user,   only: [:edit, :update]
 before_action :admin_user,     only: :destroy
 
 
   def index
-	  @users = User.paginate(page: params[:page])
+	  @users = User.where(activated: true).paginate(page: params[:page])
   end  
 
 
   def show
 	  @user = User.find(params[:id])
+	# redirect_to root_url and return unless @user.activated?
+	  @microposts = @user.microposts.paginate(page: params[:page])
   end
 
 
@@ -22,9 +24,9 @@ before_action :admin_user,     only: :destroy
   def create
 	  @user = User.new(user_params) 
           if @user.save
-		 log_in @user
-		 flash[:success] = "welcome to the sample App!"
-		 redirect_to @user
+	    @user.send_activation_email
+	    flash[:info] = "Please check your email to activate your account."
+	    redirect_to root_url
 	  else
 		  render 'new'
 	  end
@@ -45,17 +47,31 @@ before_action :admin_user,     only: :destroy
 	  end
   end
 
-  
-  # Before filters
-
-  # Confirms a logged-in user.
-  def logged_in_user
-	 unless logged_in?
-		store_location 
-		flash[:danger] = "Please log in."
-		redirect_to login_url
-	 end
+   def destroy
+          User.find(params[:id]).destroy
+          flash[:success] = "User deleted"
+          redirect_to users_url
   end
+
+  def following
+	  @title = "Following"
+	  @user  = User.find(params[:id])
+	  @users = @user.following.paginate(page: params[:page])
+	  render 'show_follow'
+  end
+
+  def followers
+	  @title = "Followers"
+	  @user  = User.find(params[:id])
+	  @users = @user.followers.paginate(page: params[:page])
+	  render 'show_follow'
+  end
+
+
+  private
+
+
+  # Before filters
 
   # Confirms the correct user.
   def correct_user
@@ -64,17 +80,11 @@ before_action :admin_user,     only: :destroy
   end
 
 
-  def destroy
-	  User.find(params[:id]).destroy
-	  flash[:success] = "User deleted"
-	  redirect_to users_url
-  end
-
   def admin_user
 	  redirect_to(root_url) unless current_user.admin?
   end
 
-    private
+    
 
   def user_params
          params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
